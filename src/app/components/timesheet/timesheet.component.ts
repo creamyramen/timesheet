@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Department } from 'src/app/interfaces/department';
 import { DepartmentsService } from 'src/app/services/departments.service';
 import { FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Employee } from 'src/app/interfaces/employee';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-timesheet',
@@ -28,7 +29,9 @@ export class TimesheetComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private departmentsService: DepartmentsService
+    private departmentsService: DepartmentsService,
+    private employeeService: EmployeeService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -87,5 +90,12 @@ export class TimesheetComponent implements OnInit {
   }
   deleteEmployee(index: number): void {
     this.employees.splice(index, 1);
+  }
+  submit(): void {
+    this.employees.forEach((employee) => {
+      this.employeeService.updateEmployeeHours(employee);
+    });
+
+    this.router.navigate(['./departments']);
   }
 }
