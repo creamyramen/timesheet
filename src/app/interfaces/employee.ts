@@ -1,6 +1,6 @@
 export interface Employee {
     [day: string]: any;
-  id: string;
+  id?: string;
   departmentId: string;
   name: string;
   payRate: number;
